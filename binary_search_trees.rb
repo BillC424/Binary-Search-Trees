@@ -1,12 +1,12 @@
 class Node
   include Comparable
 
-  attr_reader :data, :left_child, :right_child
+  attr_reader :data, :left, :right
 
-  def initialize(data = nil, left_child = nil, right_child = nil)
+  def initialize(data = nil, left = nil, right = nil)
     @data = data
-    @left_child = left_child
-    @right_child = right_child
+    @left = left
+    @right = right
   end
 
   def <=>(other_node)
@@ -36,27 +36,28 @@ class Tree
       mid = array.length / 2
       #
       root = Node.new(array[mid], array.slice(0, (mid)), array.slice(mid + 1, (array.length - mid)))
-      p root
+      p root.left
       
       # recursively calling method on left
-      left = Tree.new(root.left_child)
+      left = Tree.new(root.left)
       # recursively calling method on right
-      right = Tree.new(root.right_child)
+      right = Tree.new(root.right)
     end
     # return level 0 root node
     root
   end
-end
-
-# Method to visualize binary search tree
+  # Method to visualize binary search tree
 def pretty_print(node = @root, prefix = '', is_left = true)
   pretty_print(node.right, "#{prefix}#{is_left ? '│   ' : '    '}", false) if node.right
   puts "#{prefix}#{is_left ? '└── ' : '┌── '}#{node.data}"
   pretty_print(node.left, "#{prefix}#{is_left ? '    ' : '│   '}", true) if node.left
 end
 
+end
+
+
 array = [1,2,3,4,5,6,7]
 
 tree = Tree.new(array)
 
-p tree
+tree.pretty_print
