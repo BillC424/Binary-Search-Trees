@@ -27,17 +27,13 @@ class Tree
     if array.is_a?(Array) == false 
       nil
     elsif array.length <= 1
-      p array[0]
       root = Node.new(array[0])
     else  
-      # base case for comparing node values
-      
       # find middle of array
       mid = (array.length / 2)
+      #Create root node with left/right children
       root = Node.new(array[mid], array.slice(0, (mid)), array.slice(mid + 1, (array.length - mid)))   
-      p root
-      p root.left
-      p root.right
+  
       # recursively calling method on left
       root.left = Tree.new(root.left)
       # recursively calling method on right
