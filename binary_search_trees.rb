@@ -19,7 +19,7 @@ class Tree
   attr_accessor :root
 
   def initialize(array)
-    @root = build_tree(array)
+    @root = build_tree(array.uniq)
   end
 
   def build_tree(array)
@@ -40,19 +40,18 @@ class Tree
       root.right = Tree.new(root.right)
     end
     # return level 0 root node
-   root
+    root
   end
   # Method to visualize binary search tree
-def pretty_print(node = @root, prefix = '', is_left = true)
+  def pretty_print(node = @root, prefix = '', is_left = true)
   pretty_print(node.right, "#{prefix}#{is_left ? '│   ' : '    '}", false) if node.right
   puts "#{prefix}#{is_left ? '└── ' : '┌── '}#{node.data}"
   pretty_print(node.left, "#{prefix}#{is_left ? '    ' : '│   '}", true) if node.left
-end
+  end
 
 end
 
-
-array = [1,2,3,4,5,6,7]
+array = [1,2,3,4,7,5,6,7]
 
 tree = Tree.new(array)
 
