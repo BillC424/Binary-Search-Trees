@@ -19,7 +19,7 @@ class Tree
   attr_accessor :root
 
   def initialize(array)
-    @root = build_tree(array.uniq)
+    @root = build_tree(array.uniq.sort)
   end
 
   def build_tree(array)
@@ -49,9 +49,17 @@ class Tree
   pretty_print(node.left, "#{prefix}#{is_left ? '    ' : '│   '}", true) if node.left
   end
 
+  def insert(value)
+
+  end
+
+  def delete(value)
+
+  end
+
 end
 
-array = [1,2,3,4,7,5,6,7]
+array = [7,5,2,1,8,6,4,4]
 
 tree = Tree.new(array)
 
