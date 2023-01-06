@@ -58,15 +58,11 @@ class Tree
   # If a duplicate value is already present in tree, nothing should be added.
   def insert(value)
     # Base case
-    # return if value = @root.data
-
     if @root.data.nil?
       @root.data = value
       return
     end
-
-    # Need to account for if left or right subtree nodes are nil
-
+    # Recursive case
     if value < @root.data
       return @root.left = Node.new(value) if @root.left.nil?
       @root.left.insert(value)
@@ -77,14 +73,22 @@ class Tree
   end
 
   def delete(value)
-  
+
+    if value < @root.data
+      return @root.left = nil if @root.left.root.data == value
+      @root.left.delete(value)
+    else
+      return @root.right = nil if @root.right.root.data == value
+      @root.right.delete(value)
+    end
   end
+
 end
 
-array = [1, 2, 4, 5, 6]
+array = [1,2,3,4,5,6]
 
 tree = Tree.new(array)
 
-tree.insert(3)
+tree.delete(3)
 
 p tree
