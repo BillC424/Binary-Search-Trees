@@ -67,23 +67,24 @@ class Tree
 
     # Need to account for if left or right subtree nodes are nil
 
-    p @root
     if value < @root.data
-      @root.left = value if @root.left.nil?
+      return @root.left = Node.new(value) if @root.left.nil?
       @root.left.insert(value)
-    elsif value > @root.data
-      @root.right = value if @root.right.nil?
+    else
+      return @root.right = Node.new(value) if @root.right.nil?
       @root.right.insert(value)
     end
   end
 
-  def delete(value); end
+  def delete(value)
+  
+  end
 end
 
-array = [1, 2, 4, 6]
+array = [1, 2, 4, 5, 6]
 
 tree = Tree.new(array)
 
-p tree.insert(5)
+tree.insert(3)
 
 p tree
