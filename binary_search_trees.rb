@@ -83,12 +83,28 @@ class Tree
     end
   end
 
+  def find (value)
+    if value < @root.data
+     return @root = nil if @root.data == value
+     @root.left.find(value)
+    else
+      return @root if @root.data == value
+      @root.right.find(value)
+    end
+  end
+
 end
+
+#case
+#when @root.left != nil && @root.right != nil
+#when @root.left == nil || @root.right == nil
+#  when @root.left == nil && @root.right == nil
+#end
+
+
 
 array = [1,2,3,4,5,6]
 
 tree = Tree.new(array)
 
-tree.delete(3)
-
-p tree
+p tree.find(3)
