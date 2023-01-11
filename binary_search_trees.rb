@@ -27,23 +27,25 @@ class Tree
 
   def build_tree(array)
     # base case
-    if array.is_a?(Array) == false
-      nil
-    elsif array.length <= 1
-      root = Node.new(array[0])
+    p array
+    if array.empty? 
+      p "yay!"
+      root = nil
+    elsif array.length <= 1 
+      root = Node.new(array[0]) unless array.empty?
     else
       # find middle of array
       mid = (array.length / 2)
       # Create root node with left/right children
-      root = Node.new(array[mid], array.slice(0, mid), array.slice(mid + 1, (array.length - mid)))
+      root = Node.new(array[mid], array.slice(0, mid), array.slice(mid + 1, (array.length - mid))) 
 
       # recursively calling method on left
-      root.left = Tree.new(root.left)
+      root.left = Tree.new(root.left) if root.right != []
       # recursively calling method on right
-      root.right = Tree.new(root.right)
+      root.right = Tree.new(root.right) if root.right != []
     end
     # return level 0 root node
-    root
+    p root
   end
 
   # Method to visualize binary search tree
@@ -73,19 +75,25 @@ class Tree
   end
 
   def delete(value)
-
     if value < @root.data
+      delete_with_one_child(value)
       return @root.left = nil if @root.left.root.data == value
       @root.left.delete(value)
     else
+      delete_with_one_child(value)
       return @root.right = nil if @root.right.root.data == value
       @root.right.delete(value)
     end
   end
 
+  def delete_with_one_child(value)
+    return @root = @root.left if @root.right = nil && @root.data == value
+    return @root = @root.right if @root.left = nil && @root.data == value
+  end
+
   def find (value)
     if value < @root.data
-     return @root = nil if @root.data == value
+     return @root if @root.data == value
      @root.left.find(value)
     else
       return @root if @root.data == value
@@ -107,4 +115,6 @@ array = [1,2,3,4,5,6]
 
 tree = Tree.new(array)
 
-p tree.find(3)
+#tree.delete(6)
+
+p tree
