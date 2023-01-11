@@ -28,19 +28,18 @@ class Tree
   def build_tree(array)
     # base case
     p array
-    if array.empty? 
-      p "yay!"
-      root = nil
-    elsif array.length <= 1 
-      root = Node.new(array[0]) unless array.empty?
+    if array.length <= 1 
+      root = Node.new(array[0]) #unless array.empty?
     else
       # find middle of array
       mid = (array.length / 2)
       # Create root node with left/right children
+
+      #If I undestand how this works better I may be able to move on 
       root = Node.new(array[mid], array.slice(0, mid), array.slice(mid + 1, (array.length - mid))) 
 
       # recursively calling method on left
-      root.left = Tree.new(root.left) if root.right != []
+      root.left = Tree.new(root.left) if root.left != []
       # recursively calling method on right
       root.right = Tree.new(root.right) if root.right != []
     end
