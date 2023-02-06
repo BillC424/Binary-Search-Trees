@@ -26,25 +26,14 @@ class Tree
   end
 
   def build_tree(array)
-    # base case
     p array
-    if array.length <= 1 
-      root = Node.new(array[0]) #unless array.empty?
-    else
-      # find middle of array
-      mid = (array.length / 2)
-      # Create root node with left/right children
-
-      #If I undestand how this works better I may be able to move on 
-      root = Node.new(array[mid], array.slice(0, mid), array.slice(mid + 1, (array.length - mid))) 
-
-      # recursively calling method on left
-      root.left = Tree.new(root.left) if root.left != []
-      # recursively calling method on right
-      root.right = Tree.new(root.right) if root.right != []
-    end
-    # return level 0 root node
-    p root
+    return nil if array.empty?
+    return root = Node.new(array[0]) if array.length == 1 
+    mid = (array.length / 2)
+    root = Node.new(array[mid])
+    root.left = build_tree(array.take(mid))
+    root.right = build_tree(array.drop(mid + 1))
+    root
   end
 
   # Method to visualize binary search tree
@@ -110,7 +99,7 @@ end
 
 
 
-array = [1,2,3,4,5,6]
+array = [2,4,6,8,5,7]
 
 tree = Tree.new(array)
 
