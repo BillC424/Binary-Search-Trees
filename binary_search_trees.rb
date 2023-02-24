@@ -26,7 +26,6 @@ class Tree
   end
 
   def build_tree(array)
-    p array
     return nil if array.empty?
     return root = Node.new(array[0]) if array.length == 1 
     mid = (array.length / 2)
@@ -48,12 +47,19 @@ class Tree
   # If a duplicate value is already present in tree, nothing should be added.
   def insert(value)
     # Base case
-    return @root = value if @root.nil?
+    return Node.new(value) if @root.data.nil? 
     # Recursive case
-    return @root.left = Node.new(value) if @root.left.nil? && value < @root.data
-    @root.left.insert(value)
-    return @root.right = Node.new(value) if @root.right.nil? && value > @root.data
-    @root.right.insert(value)
+    return root if @root.data == value
+    p root
+    if value < root.data
+     return root.left = Node.new(value) if @root.left.nil? 
+     @root = @root.left
+     insert(value)
+    else
+     return root.right = Node.new(value) if @root.right.nil? 
+     @root = @root.right
+     insert(value)
+    end
   end
 
   def delete(value)
@@ -76,10 +82,12 @@ class Tree
   def find (value)
     if value < @root.data
      return @root if @root.data == value
-     @root.left.find(value)
+     @root = @root.left
+     find(value)
     else
       return @root if @root.data == value
-      @root.right.find(value)
+      @root = @root.right
+      find(value)
     end
   end
 
@@ -93,11 +101,11 @@ end
 
 
 
-array = []
+array = [2,5,3,6]
 
 tree = Tree.new(array)
 
-tree.insert(6)
+tree.find(6)
 
 p tree
 
