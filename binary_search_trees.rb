@@ -45,21 +45,16 @@ class Tree
   # When inserting a new value in a BST, it always becomes a leaf in the tree. It needs to recursively compare itself to other nodes
   # until a leaf spot (nil) is found
   # If a duplicate value is already present in tree, nothing should be added.
-  def insert(value)
-    # Base case
-    return Node.new(value) if @root.data.nil? 
-    # Recursive case
-    return root if @root.data == value
-    p root
-    if value < root.data
-     return root.left = Node.new(value) if @root.left.nil? 
-     @root = @root.left
-     insert(value)
+  def insert(value, node = @root)
+    return @root = Node.new(value) if @root.nil? 
+    return @root if @root.data == value
+    return Node.new(value) if node.nil?
+    if value < node.data
+     node.left = insert(value, node.left)
     else
-     return root.right = Node.new(value) if @root.right.nil? 
-     @root = @root.right
-     insert(value)
+     node.right = insert(value, node.right)
     end
+    node
   end
 
   def delete(value)
@@ -101,11 +96,11 @@ end
 
 
 
-array = [2,5,3,6]
+array = [2,5,3]
 
 tree = Tree.new(array)
 
-tree.find(6)
+tree.insert(6)
 
-p tree
+tree.pretty_print
 
