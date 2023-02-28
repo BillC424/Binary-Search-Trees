@@ -49,14 +49,12 @@ class Tree
     return @root = Node.new(value) if @root.nil? 
     return @root if @root.data == value
     return Node.new(value) if node.nil?
-    if value < node.data
-     node.left = insert(value, node.left)
-    else
-     node.right = insert(value, node.right)
-    end
+    node.left = insert(value, node.left) if value < node.data
+    node.right = insert(value, node.right)
     node
   end
 
+=begin
   def delete(value)
     if value < @root.data
       delete_with_one_child(value)
@@ -68,6 +66,7 @@ class Tree
       @root.right.delete(value)
     end
   end
+=end
 
   def delete_with_one_child(value)
     return @root = @root.left if @root.right = nil && @root.data == value
@@ -100,7 +99,7 @@ array = [2,5,3]
 
 tree = Tree.new(array)
 
-tree.insert(6)
+tree.insert(5)
 
 tree.pretty_print
 
