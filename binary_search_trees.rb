@@ -54,24 +54,13 @@ class Tree
     node.right = insert(value, node.right) if value > node.data
     node
   end
-
-=begin
-  def delete(value)
-    if value < @root.data
-      delete_with_one_child(value)
-      return @root.left = nil if @root.left.root.data == value
-      @root.left.delete(value)
-    else
-      delete_with_one_child(value)
-      return @root.right = nil if @root.right.root.data == value
-      @root.right.delete(value)
-    end
-  end
-=end
-
-  def delete_with_one_child(value)
-    return @root = @root.left if @root.right = nil && @root.data == value
-    return @root = @root.right if @root.left = nil && @root.data == value
+  
+  def delete(value, node = @root)
+    return @root if @root.nil?
+    return node = nil if value == node.data
+    node.left = delete(value, node.left) if value < node.data
+    node.right = delete(value, node.right) if value > node.data
+    node
   end
 
   def find (value)
@@ -88,19 +77,11 @@ class Tree
 
 end
 
-#case
-#when @root.left != nil && @root.right != nil
-#when @root.left == nil || @root.right == nil
-#  when @root.left == nil && @root.right == nil
-#end
-
-
-
-array = [2,5,3]
+array = []
 
 tree = Tree.new(array)
 
-tree.insert(3)
+tree.delete(2)
 
 p tree
 
