@@ -13,7 +13,9 @@ class Node
   end
 
   def <=>(other)
-    data <=> other.data
+   return 1 if other.nil?
+   return -1 if self.nil?
+   @data <=> other.data
   end
 end
 
@@ -57,8 +59,8 @@ class Tree
   
   def delete(value, node = @root)
     return @root if @root.nil?
-    return node = nil if value == node.data
-    node.left = delete(value, node.left) if value < node.data
+    return node = nil if value == node.data && node.left == nil && node.right == nil
+    node.left = delete(value, node.left) if value < node.data 
     node.right = delete(value, node.right) if value > node.data
     node
   end
@@ -77,11 +79,11 @@ class Tree
 
 end
 
-array = []
+array = [2,3,5,6]
 
 tree = Tree.new(array)
 
-tree.delete(2)
+tree.delete(5)
 
 p tree
 
