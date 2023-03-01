@@ -62,6 +62,9 @@ class Tree
     return node = nil if value == node.data && node.left == nil && node.right == nil
     return node = node.right if value == node.data && node.left == nil && node.right != nil 
     return node = node.left if value == node.data && node.right == nil && node.left != nil 
+
+    # Need to add return statement for if a node has two children once inorder method is built out
+
     node.left = delete(value, node.left) if value < node.data 
     node.right = delete(value, node.right) if value > node.data
     node
@@ -79,13 +82,28 @@ class Tree
     end
   end
 
+  def levelorder(&block, node = @root)
+
+  end
+
+  def preorder(&block, node = @root)
+    return @root if node.nil?
+    yield node
+    node.left = preorder(node.left)
+    node.right = preorder(node.right)
+  end
+
+  def inorder(node = @root)
+
+  end
+
 end
 
-array = [1,2,3,5,6,8]
+array = [8,3,4,2,7]
 
 tree = Tree.new(array)
 
-tree.delete(2)
+tree.preorder
 
 p tree
 
