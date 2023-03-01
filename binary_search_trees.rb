@@ -82,20 +82,17 @@ class Tree
     end
   end
 
-  def levelorder(&block, node = @root)
 
-  end
-
-  def preorder(&block, node = @root)
+  def preorder(node = @root, &block)
     return @root if node.nil?
-    yield node
+    yield node if block_given?
     node.left = preorder(node.left)
     node.right = preorder(node.right)
   end
 
-  def inorder(node = @root)
+  #def inorder(node = @root)
 
-  end
+  #end
 
 end
 
@@ -107,5 +104,5 @@ tree.preorder
 
 p tree
 
-tree.pretty_print
+#tree.pretty_print
 
