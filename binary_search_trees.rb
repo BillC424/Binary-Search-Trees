@@ -82,23 +82,18 @@ class Tree
     end
   end
   
-  def levelorder(node = @root, queue = [], &block)
+  def levelorder(node = @root, queue = [], values_array = [], &block)
     return if @root == nil 
     queue.push(node)
     while queue.empty? == false do
       node = queue[0]
-      if block_given?
-       yield queue[0] 
-      end
+      yield queue[0] if block_given?
       queue.push(node.left) if node.left != nil
       queue.push(node.right) if node.right != nil
+      values_array.push(node.data)
       queue.shift
     end
-  
-   # if block_given? == false
-     # return queue 
-    #end
-
+    return values_array if block_given? == false
   end  
 
   def preorder(node = @root, &block)
