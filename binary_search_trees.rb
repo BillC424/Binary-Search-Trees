@@ -81,7 +81,25 @@ class Tree
       find(value)
     end
   end
+  
+  def levelorder(node = @root, queue = [], &block)
+    return if @root == nil 
+    queue.push(node)
+    while queue.empty? == false do
+      node = queue[0]
+      if block_given?
+       yield queue[0] 
+      end
+      queue.push(node.left) if node.left != nil
+      queue.push(node.right) if node.right != nil
+      queue.shift
+    end
+  
+   # if block_given? == false
+     # return queue 
+    #end
 
+  end  
 
   def preorder(node = @root, &block)
     return @root if node.nil?
@@ -96,13 +114,13 @@ class Tree
 
 end
 
-array = [8,3,4,2,7]
+array = [8,3,4,2,7,11]
 
 tree = Tree.new(array)
 
-tree.preorder
+p tree.levelorder 
 
 p tree
 
-#tree.pretty_print
+tree.pretty_print
 
