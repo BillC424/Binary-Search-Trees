@@ -96,13 +96,13 @@ class Tree
     return values_array if block_given? == false
   end  
 
-  def preorder(node = @root, values_array = [], &block)
+  def preorder(node = @root, values_array = [], &blk)
     return if node.nil?
-    #values_array.push(node.data)
+    values_array.push(node.data)
     yield node if block_given?
-    node.left = preorder(node.left, &block)
-    node.right = preorder(node.right, &block)
-    #return values_array if block_given? == false
+    preorder(node.left, values_array, &blk)
+    preorder(node.right, values_array, &blk)
+    return values_array if block_given? == false
   end
 
   #def inorder(node = @root)
@@ -115,7 +115,7 @@ array = [8,3,4,2,7,11]
 
 tree = Tree.new(array)
 
-p tree
+
 
 tree.preorder do |node|
   p "who's that pokemon?"
