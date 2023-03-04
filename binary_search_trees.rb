@@ -101,7 +101,7 @@ class Tree
     return if node.nil?
 
     values_array.push(node.data)
-    yield node if block_given?
+    blk.call(node) if block_given?
     preorder(node.left, values_array, &blk)
     preorder(node.right, values_array, &blk)
     return values_array if block_given? == false
@@ -112,7 +112,7 @@ class Tree
 
     inorder(node.left, values_array, &blk)
     values_array.push(node.data)
-    yield node if block_given?
+    blk.call(node) if block_given?
     inorder(node.right, values_array, &blk)
     return values_array if block_given? == false
   end
@@ -123,7 +123,7 @@ class Tree
     postorder(node.left, values_array, &blk)
     postorder(node.right, values_array, &blk)
     values_array.push(node.data)
-    yield node if block_given?
+    blk.call(node) if block_given?
     return values_array if block_given? == false
   end
 
@@ -136,6 +136,6 @@ tree = Tree.new(array)
 
 p tree
 
-p tree.inorder
+p tree.preorder {|node| p "It's #{node}!"}
 
 tree.pretty_print
