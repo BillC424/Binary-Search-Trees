@@ -13,9 +13,10 @@ class Node
   end
 
   def <=>(other)
-   return 1 if other.nil?
-   return -1 if self.nil?
-   @data <=> other.data
+    return 1 if other.nil?
+    return -1 if nil?
+
+    @data <=> other.data
   end
 end
 
@@ -29,7 +30,8 @@ class Tree
 
   def build_tree(array)
     return nil if array.empty?
-    return root = Node.new(array[0]) if array.length == 1 
+    return root = Node.new(array[0]) if array.length == 1
+
     mid = (array.length / 2)
     root = Node.new(array[mid])
     root.left = build_tree(array.take(mid))
@@ -44,60 +46,60 @@ class Tree
     pretty_print(node.left, "#{prefix}#{is_left ? '    ' : '│   '}", true) if node.left
   end
 
-  # When inserting a new value in a BST, it always becomes a leaf in the tree. It needs to recursively compare itself to other nodes
-  # until a leaf spot (nil) is found
-  # If a duplicate value is already present in tree, nothing should be added.
-
   def insert(value, node = @root)
-    return @root = Node.new(value) if @root.nil? 
+    return @root = Node.new(value) if @root.nil?
     return @root if @root.data == value
     return Node.new(value) if node.nil?
+
     node.left = insert(value, node.left) if value < node.data
     node.right = insert(value, node.right) if value > node.data
     node
   end
-  
+
   def delete(value, node = @root)
     return @root if @root.nil?
-    return node = nil if value == node.data && node.left == nil && node.right == nil
-    return node = node.right if value == node.data && node.left == nil && node.right != nil 
-    return node = node.left if value == node.data && node.right == nil && node.left != nil 
+    return node = nil if value == node.data && node.left.nil? && node.right.nil?
+    return node = node.right if value == node.data && node.left.nil? && !node.right.nil?
+    return node = node.left if value == node.data && node.right.nil? && !node.left.nil?
 
     # Need to add return statement for if a node has two children once inorder method is built out
 
-    node.left = delete(value, node.left) if value < node.data 
+    node.left = delete(value, node.left) if value < node.data
     node.right = delete(value, node.right) if value > node.data
     node
   end
 
-  def find (value)
-    if value < @root.data
-     return @root if @root.data == value
-     @root = @root.left
-     find(value)
-    else
-      return @root if @root.data == value
-      @root = @root.right
-      find(value)
-    end
+  def find(value)
+    return @root if @root.data == value
+
+    @root = if value < @root.data
+
+              @root.left
+            else
+
+              @root.right
+            end
+    find(value)
   end
-  
-  def levelorder(node = @root, queue = [], values_array = [], &block)
-    return if @root == nil 
+
+  def levelorder(node = @root, queue = [], values_array = [])
+    return if @root.nil?
+
     queue.push(node)
-    while queue.empty? == false do
+    while queue.empty? == false
       node = queue[0]
       yield queue[0] if block_given?
-      queue.push(node.left) if node.left != nil
-      queue.push(node.right) if node.right != nil
+      queue.push(node.left) unless node.left.nil?
+      queue.push(node.right) unless node.right.nil?
       values_array.push(node.data)
       queue.shift
     end
     return values_array if block_given? == false
-  end  
+  end
 
   def preorder(node = @root, values_array = [], &blk)
     return if node.nil?
+
     values_array.push(node.data)
     yield node if block_given?
     preorder(node.left, values_array, &blk)
@@ -107,6 +109,7 @@ class Tree
 
   def inorder(node = @root, values_array = [], &blk)
     return if node.nil?
+
     inorder(node.left, values_array, &blk)
     values_array.push(node.data)
     yield node if block_given?
@@ -116,6 +119,7 @@ class Tree
 
   def postorder(node = @root, values_array = [], &blk)
     return if node.nil?
+
     postorder(node.left, values_array, &blk)
     postorder(node.right, values_array, &blk)
     values_array.push(node.data)
@@ -123,9 +127,10 @@ class Tree
     return values_array if block_given? == false
   end
 
+  def height; end
 end
 
-array = [8,3,4,2,7,11]
+array = [8, 3, 4, 2, 7, 11]
 
 tree = Tree.new(array)
 
@@ -133,6 +138,4 @@ p tree
 
 p tree.inorder
 
-
 tree.pretty_print
-
