@@ -105,9 +105,23 @@ class Tree
     return values_array if block_given? == false
   end
 
-  #def inorder(node = @root)
+  def inorder(node = @root, values_array = [], &blk)
+    return if node.nil?
+    inorder(node.left, values_array, &blk)
+    values_array.push(node.data)
+    yield node if block_given?
+    inorder(node.right, values_array, &blk)
+    return values_array if block_given? == false
+  end
 
-  #end
+  def postorder(node = @root, values_array = [], &blk)
+    return if node.nil?
+    postorder(node.left, values_array, &blk)
+    postorder(node.right, values_array, &blk)
+    values_array.push(node.data)
+    yield node if block_given?
+    return values_array if block_given? == false
+  end
 
 end
 
@@ -115,13 +129,10 @@ array = [8,3,4,2,7,11]
 
 tree = Tree.new(array)
 
+p tree
+
+p tree.inorder
 
 
-tree.preorder do |node|
-  p "who's that pokemon?"
-  p "It's #{node}!"
-end
-
-
-#tree.pretty_print
+tree.pretty_print
 
