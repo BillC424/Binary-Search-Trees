@@ -127,30 +127,37 @@ class Tree
     return values_array if block_given? == false
   end
 
-  def height(node, counter = 0)
-    
-    #once a leaf node is hit, return with the sum of the counter variable
-    #counter starts at node and ends when longest path to a leaf node is found
+  def height(value, node = @root, counter = 0, queue = [])
+    return if @root.nil?
 
+    queue.push(node)
+    while queue.empty? == false
+      node = queue[0]
+      queue.push(node.left) unless node.left.nil?
+      queue.push(node.right) unless node.right.nil?
+      queue.shift
+      counter += 1 if node.data 
+    end
+    p "The height is #{counter}"
   end
 
   def depth(value, node = @root, counter = 0)
     return if node.nil?
     
     return p "The depth is #{counter}" if node.data == value
-    counter = counter + 1
+    counter += 1
     depth(value, node.left, counter)
     depth(value, node.right, counter)
     nil
   end
 end
 
-array = [8, 3, 4, 2, 7, 11]
+array = [8, 3, 4, 2, 7, 11, 12, 9, 17, 5, 6]
 
 tree = Tree.new(array)
 
 p tree
 
-tree.depth(8)
+tree.depth(12)
 
 tree.pretty_print
