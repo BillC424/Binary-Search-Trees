@@ -127,27 +127,31 @@ class Tree
     return values_array if block_given? == false
   end
    # If I can get it to start at the correct node, then I just need to count for each level and return
-  def height(data, counter = 0, queue = [])
+  def height(data, height = -1, queue = [])
     return if @root.nil?
     node = find(data)
     queue.push(node)
     while queue.empty? == false
-      node = queue[0]
-      queue.push(node.left) unless node.left.nil?
-      queue.push(node.right) unless node.right.nil?
-      queue.shift
-      counter += 1 if node.data 
+      height += 1 
+      level_size = queue.size
+      
+      level_size.times do
+        node = queue[0]
+        queue.push(node.left) unless node.left.nil?
+        queue.push(node.right) unless node.right.nil?
+        queue.shift
+      end
     end
-    p "The height is #{counter}"
+    p "The height is #{height}"
   end
 
-  def depth(value, node = @root, counter = 0)
+  def depth(value, node = @root, depth = 0)
     return if node.nil?
     
-    return p "The depth is #{counter}" if node.data == value
-    counter += 1
-    depth(value, node.left, counter)
-    depth(value, node.right, counter)
+    return p "The depth is #{depth}" if node.data == value
+    depth += 1
+    depth(value, node.left, depth)
+    depth(value, node.right, depth)
     nil
   end
 end
@@ -158,6 +162,6 @@ tree = Tree.new(array)
 
 p tree
 
-tree.height(4)
+tree.height(7)
 
 tree.pretty_print
