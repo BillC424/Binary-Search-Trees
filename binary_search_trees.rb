@@ -142,18 +142,29 @@ class Tree
         queue.shift
       end
     end
-    p "The height is #{height}"
+    height
   end
 
   def depth(value, node = @root, depth = 0)
     return if node.nil?
     
-    return p "The depth is #{depth}" if node.data == value
+    return depth if node.data == value
     depth += 1
     depth(value, node.left, depth)
     depth(value, node.right, depth)
     nil
   end
+ 
+  def balanced?(node = @root)
+
+    return false if height(node.left)
+    height(node.right)
+  end
+
+  def rebalance
+
+  end
+
 end
 
 array = [8, 3, 4, 2, 7, 11, 12, 9, 17, 5, 6]
