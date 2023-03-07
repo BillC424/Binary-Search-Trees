@@ -126,10 +126,10 @@ class Tree
     blk.call(node) if block_given?
     return values_array if block_given? == false
   end
-
-  def height(value, node = @root, counter = 0, queue = [])
+   # If I can get it to start at the correct node, then I just need to count for each level and return
+  def height(data, counter = 0, queue = [])
     return if @root.nil?
-
+    node = find(data)
     queue.push(node)
     while queue.empty? == false
       node = queue[0]
@@ -158,6 +158,6 @@ tree = Tree.new(array)
 
 p tree
 
-tree.depth(12)
+tree.height(4)
 
 tree.pretty_print
