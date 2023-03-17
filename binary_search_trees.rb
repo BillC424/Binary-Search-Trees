@@ -70,6 +70,7 @@ class Tree
   end
 
   def find(value)
+    return if @root.nil?
     return @root if @root.data == value
 
     @root = if value < @root.data
@@ -129,7 +130,7 @@ class Tree
    # If I can get it to start at the correct node, then I just need to count for each level and return
   def height(data, height = -1, queue = [])
     return if @root.nil?
-    node = find(data)
+    node = find(data) if data.is_a?(Integer)
     queue.push(node)
     while queue.empty? == false
       height += 1 
@@ -146,19 +147,23 @@ class Tree
   end
 
   def depth(value, node = @root, depth = 0)
-    return if node.nil?
-    
+    return nil if node.nil?
+  
     return depth if node.data == value
-    depth += 1
-    depth(value, node.left, depth)
-    depth(value, node.right, depth)
-    nil
+    left_depth = depth(value, node.left, depth + 1)
+    right_depth = depth(value, node.right, depth + 1)
+    return left_depth || right_depth
   end
+  
  
   def balanced?(node = @root)
+    return if node.nil?
 
-    return false if height(node.left)
-    height(node.right)
+    return false if height(node.left) - height(node.right) > 1
+    return false if height(node.right) - height(node.left) > 1
+    balanced?(node.left)
+    balanced?(node.right)
+    true
   end
 
   def rebalance
@@ -173,6 +178,6 @@ tree = Tree.new(array)
 
 p tree
 
-tree.height(7)
+p tree.depth(17)
 
 tree.pretty_print
