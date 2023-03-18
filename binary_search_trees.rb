@@ -130,6 +130,7 @@ class Tree
    # If I can get it to start at the correct node, then I just need to count for each level and return
   def height(data, height = -1, queue = [])
     return if @root.nil?
+    node = data
     node = find(data) if data.is_a?(Integer)
     queue.push(node)
     while queue.empty? == false
@@ -138,12 +139,12 @@ class Tree
       
       level_size.times do
         node = queue[0]
-        queue.push(node.left) unless node.left.nil?
-        queue.push(node.right) unless node.right.nil?
+        queue.push(node.left) unless node.nil?
+        queue.push(node.right) unless node.nil?
         queue.shift
       end
     end
-    height
+   height
   end
 
   def depth(value, node = @root, depth = 0)
@@ -158,11 +159,12 @@ class Tree
  
   def balanced?(node = @root)
     return if node.nil?
-
-    return false if height(node.left) - height(node.right) > 1
+    
+    return false if height(node.left) - height(node.right) > 1 
     return false if height(node.right) - height(node.left) > 1
-    balanced?(node.left)
-    balanced?(node.right)
+    p node.left
+    balanced?(node.left) 
+    balanced?(node.right) 
     true
   end
 
@@ -176,8 +178,6 @@ array = [8, 3, 4, 2, 7, 11, 12, 9, 17, 5, 6]
 
 tree = Tree.new(array)
 
-p tree
-
-p tree.depth(17)
+p tree.balanced?
 
 tree.pretty_print
