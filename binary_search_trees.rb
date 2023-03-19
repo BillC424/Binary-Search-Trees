@@ -162,14 +162,14 @@ class Tree
     
     return false if height(node.left) - height(node.right) > 1 
     return false if height(node.right) - height(node.left) > 1
-    p node.left
     balanced?(node.left) 
     balanced?(node.right) 
     true
   end
 
-  def rebalance
-
+  def rebalance!(node = self)
+    array = self.inorder
+    self.root = build_tree(array)
   end
 
 end
@@ -178,6 +178,16 @@ array = [8, 3, 4, 2, 7, 11, 12, 9, 17, 5, 6]
 
 tree = Tree.new(array)
 
-p tree.balanced?
+tree.insert(125)
+tree.insert(144)
+tree.insert(111)
+tree.insert(101)
+tree.insert(100)
 
 tree.pretty_print
+
+tree.rebalance!
+
+tree.pretty_print
+
+p tree.balanced?
