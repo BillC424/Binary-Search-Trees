@@ -57,12 +57,17 @@ class Tree
   end
 
   def delete(value, node = @root)
-    return @root if @root.nil?
+    return node if node.nil?
     return node = nil if value == node.data && node.left.nil? && node.right.nil?
     return node = node.right if value == node.data && node.left.nil? && !node.right.nil?
     return node = node.left if value == node.data && node.right.nil? && !node.left.nil?
-
-    # Need to add return statement for if a node has two children once inorder method is built out
+   
+    if value == node.data && !node.left.nil? && !node.right.nil?
+      array = self.inorder
+      next_highest = array[array.index(value) + 1]
+      delete(next_highest)
+      node.data = next_highest
+    end
 
     node.left = delete(value, node.left) if value < node.data
     node.right = delete(value, node.right) if value > node.data
@@ -172,22 +177,16 @@ class Tree
     self.root = build_tree(array)
   end
 
+
+def test(value)
+  array = self.inorder
+  array.index(value) + 1
 end
 
-array = [8, 3, 4, 2, 7, 11, 12, 9, 17, 5, 6]
+end
+
+array = [11,53,101,22,23,1,5,6,7,8,55,77,34,56]
 
 tree = Tree.new(array)
 
-tree.insert(125)
-tree.insert(144)
-tree.insert(111)
-tree.insert(101)
-tree.insert(100)
-
 tree.pretty_print
-
-tree.rebalance!
-
-tree.pretty_print
-
-p tree.balanced?
