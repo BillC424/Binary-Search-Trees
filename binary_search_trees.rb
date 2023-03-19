@@ -61,9 +61,9 @@ class Tree
     return node = nil if value == node.data && node.left.nil? && node.right.nil?
     return node = node.right if value == node.data && node.left.nil? && !node.right.nil?
     return node = node.left if value == node.data && node.right.nil? && !node.left.nil?
-   
+
     if value == node.data && !node.left.nil? && !node.right.nil?
-      array = self.inorder
+      array = inorder
       next_highest = array[array.index(value) + 1]
       delete(next_highest)
       node.data = next_highest
@@ -132,16 +132,18 @@ class Tree
     blk.call(node) if block_given?
     return values_array if block_given? == false
   end
-   # If I can get it to start at the correct node, then I just need to count for each level and return
+
+  # If I can get it to start at the correct node, then I just need to count for each level and return
   def height(data, height = -1, queue = [])
     return if @root.nil?
+
     node = data
     node = find(data) if data.is_a?(Integer)
     queue.push(node)
     while queue.empty? == false
-      height += 1 
+      height += 1
       level_size = queue.size
-      
+
       level_size.times do
         node = queue[0]
         queue.push(node.left) unless node.nil?
@@ -149,43 +151,42 @@ class Tree
         queue.shift
       end
     end
-   height
+    height
   end
 
   def depth(value, node = @root, depth = 0)
     return nil if node.nil?
-  
+
     return depth if node.data == value
+
     left_depth = depth(value, node.left, depth + 1)
     right_depth = depth(value, node.right, depth + 1)
-    return left_depth || right_depth
+    left_depth || right_depth
   end
-  
- 
+
   def balanced?(node = @root)
     return if node.nil?
-    
-    return false if height(node.left) - height(node.right) > 1 
+
+    return false if height(node.left) - height(node.right) > 1
     return false if height(node.right) - height(node.left) > 1
-    balanced?(node.left) 
-    balanced?(node.right) 
+
+    balanced?(node.left)
+    balanced?(node.right)
     true
   end
 
-  def rebalance!(node = self)
-    array = self.inorder
+  def rebalance!(_node = self)
+    array = inorder
     self.root = build_tree(array)
   end
 
-
-def test(value)
-  array = self.inorder
-  array.index(value) + 1
+  def test(value)
+    array = inorder
+    array.index(value) + 1
+  end
 end
 
-end
-
-array = [11,53,101,22,23,1,5,6,7,8,55,77,34,56]
+array = [11, 53, 101, 22, 23, 1, 5, 6, 7, 8, 55, 77, 34, 56]
 
 tree = Tree.new(array)
 
