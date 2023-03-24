@@ -131,8 +131,8 @@ class Tree
     blk.call(node) if block_given?
     return values_array if block_given? == false
   end
-   # If I can get it to start at the correct node, then I just need to count for each level and return
-  def height(data, height = -1, queue = [])
+
+ def height(data, height = -1, queue = [])
     return if @root.nil?
     node = data
     node = find(data) if data.is_a?(Integer)
